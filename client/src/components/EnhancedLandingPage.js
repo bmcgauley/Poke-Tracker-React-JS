@@ -5,7 +5,32 @@ import { Input } from "./ui/Input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/Table";
 import { ChevronRight, CheckCircle2, XCircle, Target, Users, Repeat, BarChart, Smartphone } from "lucide-react";
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
+const Home = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/auth');
+    } catch (error) {
+      console.error('Failed to log out', error);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Welcome, {user.email}</h1>
+      <button onClick={handleLogout}>Logout</button>
+      {/* Add your other components here */}
+    </div>
+  );
+};
+
+export default Home;
 export default function EnhancedLandingPage() {
   const location = useLocation();
 
